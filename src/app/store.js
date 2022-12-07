@@ -1,10 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit";
-import spotifyReducer from "../utils/reducer";
+// import { configureStore } from "@reduxjs/toolkit";
+// import spotifyReducer from "../utils/reducer";
 
-const store = configureStore({
-  reducer: {
-    spotify: spotifyReducer,
-  },
-});
+// const store = configureStore({
+//   reducer: {
+//     spotify: spotifyReducer,
+//   },
+// });
 
-export default store;
+// export default store;

@@ -10,9 +10,9 @@ import store from "./app/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store}>
-    <StateProvider initialState={initialState} reducer={reducer}>
-      <App />
-    </StateProvider>
-  </Provider>
+  // <Provider store={store}>
+  // </Provider>
+  <StateProvider initialState={initialState} reducer={reducer}>
+    <App />
+  </StateProvider>
 );

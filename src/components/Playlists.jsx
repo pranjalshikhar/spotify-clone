@@ -59,12 +59,12 @@ const Playlists = () => {
         }
       );
       const { items } = response.data;
-      // console.log(items);
+      // console.table(items);
 
       const playlists = items.map(({ name, id }) => {
         return { name, id };
       });
-      console.log(playlists);
+      // console.log(playlists);
       dispatch({ type: reducerCases.SET_PLAYLISTS, playlists });
       // dispatch(setToken(token));
       // dispatch(setPlaylists(playlists));

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { reducerCases } from "../utils/actions";
 import { useStateProvider } from "../utils/StateProvider";
@@ -10,6 +10,17 @@ import Sidebar from "./Sidebar";
 
 const Spotify = () => {
   const [{ token }, dispatch] = useStateProvider();
+  const bodyRef = useRef();
+  const [navBackground, setNavBackground] = useState(false);
+  const [headerBackground, setHeaderBackground] = useState(false);
+  const bodyScrolled = () => {
+    bodyRef.current.scrollTop >= 30
+      ? setNavBackground(true)
+      : setNavBackground(false);
+    bodyRef.current.scrollTop >= 268
+      ? setHeaderBackground(true)
+      : setHeaderBackground(false);
+  };
 
   useEffect(() => {
     const getUsersInfo = async () => {
@@ -19,13 +30,15 @@ const Spotify = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
 
       const userInfo = {
         userId: response.data.id,
         userName: response.data.display_name,
+        userUrl: response.data.external_urls.spotify,
+        userImage: response.data.images[0].url,
       };
-      // console.log(userInfo);
+      // console.log(userInfo.userImage);
 
       dispatch({ type: reducerCases.SET_USER, userInfo });
     };
@@ -36,10 +49,10 @@ const Spotify = () => {
     <Container>
       <div className="spotify-container">
         <Sidebar />
-        <div className="container">
-          <Navbar />
+        <div className="container" ref={bodyRef} onScroll={bodyScrolled}>
+          <Navbar navBackground={navBackground} />
           <div className="container-contents">
-            <Body />
+            <Body headerBackground={headerBackground} />
           </div>
         </div>
       </div>

@@ -4,18 +4,23 @@ import { FaSearch } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { useStateProvider } from "../utils/StateProvider";
 
-const Navbar = () => {
+const Navbar = ({ navBackground }) => {
   const [{ userInfo }] = useStateProvider();
 
   return (
-    <Container>
+    <Container navBackground={navBackground}>
       <div className="search-bar">
         <FaSearch />
         <input type="text" placeholder="Artists, Songs or Podcasts" />
       </div>
       <div className="avatar">
         <a href={userInfo?.userUrl}>
-          <CgProfile />
+          {/* <CgProfile /> */}
+          <img
+            src={userInfo?.userImage}
+            alt={userInfo?.userName}
+            style={{ width: "30px", height: "30px", borderRadius: "50%" }}
+          />
           <span>{userInfo?.userName}</span>
         </a>
       </div>

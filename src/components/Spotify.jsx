@@ -24,7 +24,7 @@ const Spotify = () => {
 
   useEffect(() => {
     const getUsersInfo = async () => {
-      const response = await axios.get("https://api.spotify.com/v1/me", {
+      const { data } = await axios.get("https://api.spotify.com/v1/me", {
         headers: {
           Authorization: "Bearer " + token,
           "Content-Type": "application/json",
@@ -33,10 +33,10 @@ const Spotify = () => {
       // console.log(response.data);
 
       const userInfo = {
-        userId: response.data.id,
-        userName: response.data.display_name,
-        userUrl: response.data.external_urls.spotify,
-        userImage: response.data.images[0].url,
+        userId: data.id,
+        userName: data.display_name,
+        userUrl: data.external_urls.spotify,
+        userImage: data.images[0].url,
       };
       // console.log(userInfo.userImage);
 
@@ -44,6 +44,22 @@ const Spotify = () => {
     };
     getUsersInfo();
   }, [token, dispatch]);
+
+  useEffect(() => {
+    const getPlaybackState = async () => {
+      const { data } = await axios.get("https://api.spotify.com/v1/me/player", {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      });
+      dispatch({
+        type: reducerCases.SET_PLAYER_STATE,
+        playerState: data.is_playing,
+      });
+    };
+    getPlaybackState();
+  }, [dispatch, token]);
 
   return (
     <Container>

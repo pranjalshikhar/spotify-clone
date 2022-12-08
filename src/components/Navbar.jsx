@@ -1,7 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
+import styled from "styled-components";
 import { useStateProvider } from "../utils/StateProvider";
 
 const Navbar = ({ navBackground }) => {

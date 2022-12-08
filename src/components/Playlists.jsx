@@ -1,10 +1,50 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { reducerCases } from "../utils/actions";
-import { setToken, setPlaylists } from "../utils/reducer";
 import { useStateProvider } from "../utils/StateProvider";
+
+const Playlists = () => {
+  const [{ token, playlists }, dispatch] = useStateProvider();
+  useEffect(() => {
+    const getPlaylistData = async () => {
+      const response = await axios.get(
+        "https://api.spotify.com/v1/me/playlists",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const { items } = response.data;
+      const playlists = items.map(({ name, id }) => {
+        return { name, id };
+      });
+      dispatch({ type: reducerCases.SET_PLAYLISTS, playlists });
+    };
+    getPlaylistData();
+  }, [token, dispatch]);
+  const changeCurrentPlaylist = (selectedPlaylistId) => {
+    dispatch({ type: reducerCases.SET_PLAYLIST_ID, selectedPlaylistId });
+  };
+
+  return (
+    <Container>
+      <ul>
+        {playlists.map(({ name, id }) => {
+          return (
+            <li key={id} onClick={() => changeCurrentPlaylist(id)}>
+              {name}
+            </li>
+          );
+        })}
+      </ul>
+    </Container>
+  );
+};
+
+export default Playlists;
 
 const Container = styled.div`
   height: 100%;
@@ -36,51 +76,3 @@ const Container = styled.div`
     }
   }
 `;
-
-const Playlists = () => {
-  // const dispatch = useDispatch();
-  // const hash = window.location.hash;
-  // var token;
-  // if (hash) {
-  //   token = hash.substring(1).split("&")[0].split("=")[1];
-  // }
-
-  const [{ token, playlists }, dispatch] = useStateProvider();
-
-  useEffect(() => {
-    const getPlaylistsData = async () => {
-      const response = await axios.get(
-        "https://api.spotify.com/v1/me/playlists",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const { items } = response.data;
-      // console.table(items);
-
-      const playlists = items.map(({ name, id }) => {
-        return { name, id };
-      });
-      // console.log(playlists);
-      dispatch({ type: reducerCases.SET_PLAYLISTS, playlists });
-      // dispatch(setToken(token));
-      // dispatch(setPlaylists(playlists));
-    };
-    getPlaylistsData();
-  }, [token, dispatch]);
-
-  return (
-    <Container>
-      <ul>
-        {playlists.map(({ name, id }) => {
-          return <li key={id}>{name}</li>;
-        })}
-      </ul>
-    </Container>
-  );
-};
-
-export default Playlists;

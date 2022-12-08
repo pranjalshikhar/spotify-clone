@@ -8,7 +8,6 @@ const Container = styled.div`
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  /* background-color: #1db954; */
   background: linear-gradient(120deg, #1db954, #191414);
   gap: 5rem;
   img {
@@ -28,20 +27,6 @@ const Container = styled.div`
 
 const Login = () => {
   const connectSpotify = () => {
-    // const clientId = "2df4595c2e0c4d83a1dd90c619ae2728";
-    // const redirectUrl = "http://localhost:3000/";
-    // const apiUrl = "https://accounts.spotify.com/authorize";
-    // const scope = [
-    //   "user-read-email",
-    //   "user-read-private",
-    //   "user-modify-playback-state",
-    //   "user-read-playback-state",
-    //   "user-read-currently-playing",
-    //   "user-read-recently-played",
-    //   "user-read-playback-position",
-    //   "user-top-read",
-    // ];
-
     const clientId = process.env.REACT_APP_CLIENT_ID;
     const redirectUrl = process.env.REACT_APP_REDIRECT_URL;
     const apiUrl = process.env.REACT_APP_API_URL;
